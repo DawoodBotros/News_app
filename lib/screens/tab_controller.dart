@@ -16,78 +16,71 @@ class TabControllerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyProvider(),
-      builder: (context, child) {
-        var provider = Provider.of<MyProvider>(context);
-        return Column(
-          children: [
-            DefaultTabController(
-                length: sources.length,
-                child: TabBar(
-                  onTap: (index) {
-                    provider.ChangeSelected(index);
-                  },
-                  isScrollable: true,
-                  indicatorColor: Colors.transparent,
-                  tabs: sources
-                      .map(
-                        (source) => Tab(
-                          child: TabItem(
-                              source,
-                              sources.indexOf(source) ==
-                                  provider.selectedIndex),
-                        ),
-                      )
-                      .toList(),
-                )),
-            FutureBuilder<NewsDataModel>(
-              future: ApiManager.getNewsData(
-                sourceID: sources[provider.selectedIndex].id ?? "",
-                language: provider.language,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: CircularProgressIndicator(
-                    color: colorGreen,
-                  ));
-                }
-                if (snapshot.hasError) {
-                  return Column(
-                    children: [
-                      Text(snapshot.data?.message ?? "Has Error"),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text("Try Again"),
-                      ),
-                    ],
-                  );
-                }
-                if (snapshot.data?.status != "ok") {
-                  return Column(
-                    children: [
-                      Text(snapshot.data?.message ?? "Has Error"),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text("Try Again"),
-                      ),
-                    ],
-                  );
-                }
-                var news = snapshot.data?.articles ?? [];
-                return Expanded(
-                  child: ListView.builder(
-                      itemCount: news.length,
-                      itemBuilder: (context, index) {
-                        return NewsCard(news[index]);
-                      }),
-                );
+    var provider = Provider.of<MyProvider>(context);
+    return Column(
+      children: [
+        DefaultTabController(
+            length: sources.length,
+            child: TabBar(
+              onTap: (index) {
+                provider.ChangeSelected(index);
               },
-            ),
-          ],
-        );
-      },
+              isScrollable: true,
+              indicatorColor: Colors.transparent,
+              tabs: sources
+                  .map(
+                    (source) => Tab(
+                      child: TabItem(source,
+                          sources.indexOf(source) == provider.selectedIndex),
+                    ),
+                  )
+                  .toList(),
+            )),
+        FutureBuilder<NewsDataModel>(
+          future: ApiManager.getNewsData(
+            sourceID: sources[provider.selectedIndex].id ?? "",
+            language: provider.language,
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: CircularProgressIndicator(
+                color: colorGreen,
+              ));
+            }
+            if (snapshot.hasError) {
+              return Column(
+                children: [
+                  Text(snapshot.data?.message ?? "Has Error"),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text("Try Again"),
+                  ),
+                ],
+              );
+            }
+            if (snapshot.data?.status != "ok") {
+              return Column(
+                children: [
+                  Text(snapshot.data?.message ?? "Has Error"),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text("Try Again"),
+                  ),
+                ],
+              );
+            }
+            var news = snapshot.data?.articles ?? [];
+            return Expanded(
+              child: ListView.builder(
+                  itemCount: news.length,
+                  itemBuilder: (context, index) {
+                    return NewsCard(news[index]);
+                  }),
+            );
+          },
+        ),
+      ],
     );
   }
 }

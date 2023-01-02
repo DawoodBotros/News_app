@@ -1,2 +1,2 @@
-const String APIKEY = "69c37ac46f7b4156b0e7a4d89e9416aa";
+const String APIKEY = "b2051aef415c471883257d15d456c8af";
 const String BASE = 'newsapi.org';
