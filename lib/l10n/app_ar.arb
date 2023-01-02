@@ -1,0 +1,17 @@
+{
+  "business" : "اقتصاد",
+  "sport" : "رياضة",
+  "science" :"علوم",
+  "health" : "صحة",
+  "technology" : "تكنولوجيا",
+  "entertainment" :"عامة",
+  "general": "عامة",
+  "english" : "انجليزى",
+  "arabic" : "عربى",
+  "pick_category" : "اختر فئة اهتمامك",
+  "category" : "الاصناف",
+  "setting" : "الاعدادات",
+  "language" : "اللغة",
+  "news" : "الاخبار"
+
+}
