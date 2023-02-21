@@ -29,11 +29,12 @@ class TabControllerScreen extends StatelessWidget {
               indicatorColor: Colors.transparent,
               tabs: sources
                   .map(
-                    (source) => Tab(
+                    (source) =>
+                    Tab(
                       child: TabItem(source,
                           sources.indexOf(source) == provider.selectedIndex),
                     ),
-                  )
+              )
                   .toList(),
             )),
         FutureBuilder<NewsDataModel>(
@@ -45,8 +46,8 @@ class TabControllerScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                   child: CircularProgressIndicator(
-                color: colorGreen,
-              ));
+                    color: colorGreen,
+                  ));
             }
             if (snapshot.hasError) {
               return Column(

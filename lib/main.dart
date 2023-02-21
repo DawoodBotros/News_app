@@ -3,6 +3,7 @@ import 'package:news/layout/home.dart';
 import 'package:news/provider/my_provider.dart';
 import 'package:news/screens/details/details.dart';
 import 'package:news/screens/setting.dart';
+import 'package:news/screens/splash/splash_screen.dart';
 import 'package:news/shared/styles/my_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
         Locale('ar' ), // Arabic, no country code
       ],
       locale: Locale(provider.language),
-      initialRoute: HomeLayout.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        SplashScreen.routeName: (context) => SplashScreen(),
         SettingScreen.routeName: (context) => SettingScreen(),
         HomeLayout.routeName: (context) => HomeLayout(),
         NewsDetailsScreen.routeName: (context) => NewsDetailsScreen(),
