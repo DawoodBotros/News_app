@@ -38,7 +38,7 @@ class CategoryData {
       CategoryData(
         "sports",
         AppLocalizations.of(context)!.sport,
-        "assets/images/sports.png",
+        "assets/images/ball.png",
         Color(0xFF4882CF),
       ),
       CategoryData(
