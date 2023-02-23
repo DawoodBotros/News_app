@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news/models/NewsDataModel.dart';
 import 'package:news/provider/my_provider.dart';
+import 'package:news/repoistory/data_source/remote.dart';
 import 'package:news/screens/news_card.dart';
 import 'package:news/screens/tab_item.dart';
 import 'package:news/shared/network/remote/api_manager.dart';
@@ -11,6 +12,7 @@ import '../models/sources.dart';
 
 class TabControllerScreen extends StatelessWidget {
   List<Sources> sources;
+  ApiManager apiManager = ApiManager(baseRepository: Remote());
 
   TabControllerScreen(this.sources);
 
@@ -29,16 +31,15 @@ class TabControllerScreen extends StatelessWidget {
               indicatorColor: Colors.transparent,
               tabs: sources
                   .map(
-                    (source) =>
-                    Tab(
+                    (source) => Tab(
                       child: TabItem(source,
                           sources.indexOf(source) == provider.selectedIndex),
                     ),
-              )
+                  )
                   .toList(),
             )),
         FutureBuilder<NewsDataModel>(
-          future: ApiManager.getNewsData(
+          future: apiManager.baseRepository!.getNewsData(
             sourceID: sources[provider.selectedIndex].id ?? "",
             language: provider.language,
           ),
@@ -46,8 +47,8 @@ class TabControllerScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                   child: CircularProgressIndicator(
-                    color: colorGreen,
-                  ));
+                color: colorGreen,
+              ));
             }
             if (snapshot.hasError) {
               return Column(

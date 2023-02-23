@@ -1,39 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:news/repoistory/data_source/remote.dart';
 
 import '../../models/NewsDataModel.dart';
 import '../../shared/network/remote/api_manager.dart';
 import '../../shared/styles/colors.dart';
 import '../news_card.dart';
 
-class SearchScreen extends SearchDelegate{
-
+class SearchScreen extends SearchDelegate {
+  ApiManager apiManager =ApiManager(baseRepository: Remote());
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(onPressed: (){
-        showResults(context);
-      }, icon: Icon(Icons.search,size: 25,)),
+      IconButton(
+          onPressed: () {
+            showResults(context);
+          },
+          icon: Icon(
+            Icons.search,
+            size: 25,
+          )),
     ];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
-    return IconButton(icon:Icon(Icons.clear,size: 25,), onPressed: () {
-      Navigator.pop(context);
-    },);
+    return IconButton(
+      icon: Icon(
+        Icons.clear,
+        size: 25,
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return  FutureBuilder<NewsDataModel>(
-      future: ApiManager.getNewsData(
-          Search:   query),
+    return FutureBuilder<NewsDataModel>(
+      future: apiManager.baseRepository!.getNewsData(Search: query),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
               child: CircularProgressIndicator(
-                color: colorGreen,
-              ));
+            color: colorGreen,
+          ));
         }
         if (snapshot.hasError) {
           return Column(
@@ -73,5 +84,4 @@ class SearchScreen extends SearchDelegate{
   Widget buildSuggestions(BuildContext context) {
     return Center(child: Text("Suggestions"));
   }
-  
 }
